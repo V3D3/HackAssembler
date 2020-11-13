@@ -1,3 +1,6 @@
+#include <iostream>
+using namespace std;
+
 class Code  {
 	public:
 		string dest(string);
@@ -31,7 +34,7 @@ string Code::dest(string mnemonic)  {
 	return ret;
 }
 
-string Code::comp(string mnemonic)  {
+string Code::jump(string mnemonic)  {
 	if(mnemonic.length() == 0)  {
 		return "000";
 	}
