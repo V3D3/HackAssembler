@@ -11,7 +11,7 @@ class Parser  {
 	private:
 		ifstream inputStream;
 		string currentCommand;
-		string trim(string);
+        string trim(string);
 	public:
 		Parser(string);
 		bool hasMoreCommands();
@@ -24,7 +24,7 @@ class Parser  {
 };
 
 Parser::Parser(string file)  {
-	inputStream::open(file);
+	inputStream.open(file);
 	advance();
 }
 
@@ -34,7 +34,9 @@ bool Parser::hasMoreCommands()  {
 
 	while(inputStream)  {
 		getline(inputStream, newLine);
+        cout << "in: " << newLine << endl;
 		newLine = trim(newLine);
+        cout << "out: " << newLine << endl;
 
 		if(newLine.length() == 0 || (newLine[0] == '/' && newLine[1] == '/'))  {
 			curr = inputStream.tellg();
@@ -107,6 +109,8 @@ string Parser::comp()  {
 		}
 	}
 
+	cout << "comp(q): (" << eqIndex << ", " << scIndex << ") " << currentCommand;
+
 	if(eqIndex < 0 && scIndex < 0)  {
 		return currentCommand;
 	}
@@ -114,9 +118,9 @@ string Parser::comp()  {
 		return currentCommand.substr(0, scIndex);
 	}
 	if(scIndex < 0)  {
-		return currentCommand.substr(eqIndex + 1, currentCommand.length() - eqIndex - 1);
+		return currentCommand.substr(eqIndex, currentCommand.length() - eqIndex - 1);
 	}
-	return currentCommand.substr(eqIndex + 1, scIndex - eqIndex - 1);
+	return currentCommand.substr(eqIndex, scIndex - eqIndex - 1);
 }
 
 string Parser::jump()  {
@@ -139,7 +143,7 @@ string Parser::trim(string input)  {
 
 	int i;
 	for(i = 0; i < input.length(); i++)  {
-		if(input[i] != ' ')  {
+		if(input[i] != ' ' && input[i] != '\r')  {
 			fin += input[i];
 		}
 	}

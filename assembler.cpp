@@ -76,7 +76,7 @@ int main(int argc, char ** argv)  {
 		}
 
 		lnAddr++;
-		advance();
+		p.advance();
 	}
 
 	//symbol table prepared
@@ -84,24 +84,24 @@ int main(int argc, char ** argv)  {
 	string outFile = "out.hack";
 	ofstream outputStream(outFile);
 
-	if(!ofs)  {
+	if(!outputStream)  {
 		cout << "Couldn't open file out.hack for writing.\n";
 		return 0;
 	}
 	
 	Parser q(file);
-	Code c();
+	Code c;
 	while(q.hasMoreCommands())  {
 		if(q.commandType() == C_COM)  {
-			ofs << "111" << c.comp(q.comp()) << c.dest(q.dest()) << c.jump(q.jump()) << endl;
+			outputStream << "111" << c.comp(q.comp()) << c.dest(q.dest()) << c.jump(q.jump()) << endl;
 		}
 		if(q.commandType() == A_COM)  {
-			ofs << "0" << decimalToBinary(symTab.find(q.symbol()) -> second);
+			outputStream << "0" << decimalToBinary(symTab.getAddress(q.symbol())) << endl;
 		}
 		q.advance();
 	}
 
-	ofs.close();
+	outputStream.close();
 
 	return 0;
 }

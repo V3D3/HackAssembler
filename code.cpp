@@ -9,6 +9,8 @@ class Code  {
 };
 
 string Code::dest(string mnemonic)  {
+    cout << "dest: " << mnemonic << endl;
+
 	bool hasM = false;
 	bool hasA = false;
 	bool hasD = false;
@@ -35,115 +37,121 @@ string Code::dest(string mnemonic)  {
 }
 
 string Code::jump(string mnemonic)  {
+	cout << "jump: " << mnemonic << endl;
 	if(mnemonic.length() == 0)  {
 		return "000";
 	}
-	if(mnemonic == "JGT")  {
+	if(!mnemonic.compare("JGT"))  {
 		return "001";
 	}
-	if(mnemonic == "JEQ")  {
+	if(!mnemonic.compare("JEQ"))  {
 		return "010";
 	}
-	if(mnemonic == "JGE")  {
+	if(!mnemonic.compare("JGE"))  {
 		return "011";
 	}
-	if(mnemonic == "JLT")  {
+	if(!mnemonic.compare("JLT"))  {
 		return "100";
 	}
-	if(mnemonic == "JNE")  {
+	if(!mnemonic.compare("JNE"))  {
 		return "101";
 	}
-	if(mnemonic == "JLE")  {
+	if(!mnemonic.compare("JLE"))  {
 		return "110";
 	}
-	if(mnemonic == "JMP")  {
+	if(!mnemonic.compare("JMP"))  {
 		return "111";
 	}
+
+	return "000";
 }
 
 string Code::comp(string mnemonic)  {
-	if(mnemonic == "0")  {
+    cout << "comp: " << mnemonic << endl;
+	if(!mnemonic.compare("0"))  {
 		return "0101010";
 	}
-	if(mnemonic == "1")  {
+	if(!mnemonic.compare("1"))  {
 		return "0111111";
 	}
-	if(mnemonic == "-1")  {
+	if(!mnemonic.compare("-1"))  {
 		return "0111010";
 	}
-	if(mnemonic == "D")  {
+	if(!mnemonic.compare("D"))  {
 		return "0001100";
 	}
-	if(mnemonic == "A")  {
+	if(!mnemonic.compare("A"))  {
 		return "0110000";
 	}
-	if(mnemonic == "M")  {
+	if(!mnemonic.compare("M"))  {
 		return "1110000";
 	}
-	if(mnemonic == "!D")  {
+	if(!mnemonic.compare("!D"))  {
 		return "0001101";
 	}
-	if(mnemonic == "!A")  {
+	if(!mnemonic.compare("!A"))  {
 		return "0110001";
 	}
-	if(mnemonic == "!M")  {
+	if(!mnemonic.compare("!M"))  {
 		return "1110001";
 	}
-	if(mnemonic == "-D")  {
+	if(!mnemonic.compare("-D"))  {
 		return "0001111";
 	}
-	if(mnemonic == "-A")  {
+	if(!mnemonic.compare("-A"))  {
 		return "0110011";
 	}
-	if(mnemonic == "-M")  {
+	if(!mnemonic.compare("-M"))  {
 		return "1110011";
 	}
-	if(mnemonic == "D+1")  {
+	if(!mnemonic.compare("D+1"))  {
 		return "0011111";
 	}
-	if(mnemonic == "A+1")  {
+	if(!mnemonic.compare("A+1"))  {
 		return "0110111";
 	}
-	if(mnemonic == "M+1")  {
+	if(!mnemonic.compare("M+1"))  {
 		return "1110111";
 	}
-	if(mnemonic == "D-1")  {
+	if(!mnemonic.compare("D-1"))  {
 		return "001110";
 	}
-	if(mnemonic == "A-1")  {
+	if(!mnemonic.compare("A-1"))  {
 		return "0110010";
 	}
-	if(mnemonic == "M-1")  {
+	if(!mnemonic.compare("M-1"))  {
 		return "1110010";
 	}
-	if(mnemonic == "D+A")  {
+	if(!mnemonic.compare("D+A"))  {
 		return "0000010";
 	}
-	if(mnemonic == "D+M")  {
+	if(!mnemonic.compare("D+M"))  {
 		return "1000010";
 	}
-	if(mnemonic == "D-A")  {
+	if(!mnemonic.compare("D-A"))  {
 		return "0010011";
 	}
-	if(mnemonic == "D-M")  {
+	if(!mnemonic.compare("D-M"))  {
 		return "1010011";
 	}
-	if(mnemonic == "A-D")  {
+	if(!mnemonic.compare("A-D"))  {
 		return "0000111";
 	}
-	if(mnemonic == "M-D")  {
+	if(!mnemonic.compare("M-D"))  {
 		return "1000111";
 	}
-	if(mnemonic == "D&A")  {
+	if(!mnemonic.compare("D&A"))  {
 		return "0000000";
 	}
-	if(mnemonic == "D&M")  {
+	if(!mnemonic.compare("D&M"))  {
 		return "1000000";
 	}
-	if(mnemonic == "D|A")  {
+	if(!mnemonic.compare("D|A"))  {
 		return "0010101";
 	}
-	if(mnemonic == "D|M")  {
+	if(!mnemonic.compare("D|M"))  {
 		return "1010101";
 	}
+
+	return "0000000";
 }

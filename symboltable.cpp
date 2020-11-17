@@ -12,13 +12,13 @@ class SymbolTable  {
 };
 
 void SymbolTable::addEntry(string symbol, int address)  {
-	map.insert(pair<string, int>(symbol, address);
+	table.insert(pair<string, int>(symbol, address));
 }
 
-bool contains(string symbol)  {
+bool SymbolTable::contains(string symbol)  {
 	return table.find(symbol) == table.end();
 }
 
-int getAddress(string symbol)  {
+int SymbolTable::getAddress(string symbol)  {
 	return table.find(symbol) -> second;
 }
