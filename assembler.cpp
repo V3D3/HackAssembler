@@ -13,7 +13,7 @@ string decimalToBinary(int dec)  {
 	}
 
 	while(dec > 0)  {
-		out += ((dec - inv) % 2) ? "1" : "0";
+		out = (((dec - inv) % 2) ? "1" : "0") + out;
 		dec /= 2;
 	}
 
@@ -22,6 +22,29 @@ string decimalToBinary(int dec)  {
 	}
 
 	return out;
+}
+bool isNumber(string s)  {
+	int i = 0;
+	if(s[0] == '-')  {
+		i++;
+	}
+	for(; i < s.length(); i++)  {
+		if(!(s[i] >= '0' && s[i] <= '9'))  {
+			return false;
+		}
+	}
+
+	return true;
+}
+int stringToNumber(string s)  {
+	int num = 0;
+
+	int i;
+	for(i = 0; i < s.length(); i++)  {
+		int val = s[i] - '0';
+		num = (num * 10) + val;
+	}
+	return num;
 }
 
 void initSymTab(SymbolTable * symTab)  {
@@ -63,23 +86,16 @@ int main(int argc, char ** argv)  {
 	
 	Parser p(file);
 
-	int varAddr = 16;
 	int lnAddr = 0;
 	while(p.hasMoreCommands())  {
 		if(p.commandType() == L_COM)  {
 			symTab.addEntry(p.symbol(), lnAddr);
 			lnAddr--;
 		}
-		if(p.commandType() == A_COM)  {
-			symTab.addEntry(p.symbol(), varAddr);
-			varAddr++;
-		}
 
 		lnAddr++;
 		p.advance();
 	}
-
-	//symbol table prepared
 
 	string outFile = "out.hack";
 	ofstream outputStream(outFile);
@@ -91,12 +107,25 @@ int main(int argc, char ** argv)  {
 	
 	Parser q(file);
 	Code c;
+	int varAddr = 16;
 	while(q.hasMoreCommands())  {
 		if(q.commandType() == C_COM)  {
 			outputStream << "111" << c.comp(q.comp()) << c.dest(q.dest()) << c.jump(q.jump()) << endl;
 		}
 		if(q.commandType() == A_COM)  {
-			outputStream << "0" << decimalToBinary(symTab.getAddress(q.symbol())) << endl;
+			if(!isNumber(q.symbol()))  {
+				if(!symTab.contains(q.symbol()))  {
+					symTab.addEntry(q.symbol(), varAddr);
+					varAddr++;
+				}
+			}
+
+			if(isNumber(q.symbol()))  {
+				outputStream << "0" << decimalToBinary(stringToNumber(q.symbol())) << endl;
+			}  else  {
+				//cout << q.symbol() << ":" << symTab.getAddress(q.symbol()) << endl;
+				outputStream << "0" << decimalToBinary(symTab.getAddress(q.symbol())) << endl;
+			}
 		}
 		q.advance();
 	}

@@ -9,8 +9,6 @@ class Code  {
 };
 
 string Code::dest(string mnemonic)  {
-    cout << "dest: " << mnemonic << endl;
-
 	bool hasM = false;
 	bool hasA = false;
 	bool hasD = false;
@@ -37,7 +35,6 @@ string Code::dest(string mnemonic)  {
 }
 
 string Code::jump(string mnemonic)  {
-	cout << "jump: " << mnemonic << endl;
 	if(mnemonic.length() == 0)  {
 		return "000";
 	}
@@ -67,7 +64,6 @@ string Code::jump(string mnemonic)  {
 }
 
 string Code::comp(string mnemonic)  {
-    cout << "comp: " << mnemonic << endl;
 	if(!mnemonic.compare("0"))  {
 		return "0101010";
 	}
@@ -114,7 +110,7 @@ string Code::comp(string mnemonic)  {
 		return "1110111";
 	}
 	if(!mnemonic.compare("D-1"))  {
-		return "001110";
+		return "0001110";
 	}
 	if(!mnemonic.compare("A-1"))  {
 		return "0110010";

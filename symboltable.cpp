@@ -12,11 +12,15 @@ class SymbolTable  {
 };
 
 void SymbolTable::addEntry(string symbol, int address)  {
-	table.insert(pair<string, int>(symbol, address));
+	if(contains(symbol))  {
+		table[symbol] = address;
+	}  else  {
+		table.insert(pair<string, int>(symbol, address));
+	}
 }
 
 bool SymbolTable::contains(string symbol)  {
-	return table.find(symbol) == table.end();
+	return table.find(symbol) != table.end();
 }
 
 int SymbolTable::getAddress(string symbol)  {

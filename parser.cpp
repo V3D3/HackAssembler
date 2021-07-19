@@ -11,6 +11,7 @@ class Parser  {
 	private:
 		ifstream inputStream;
 		string currentCommand;
+		string nextCommand;
         string trim(string);
 	public:
 		Parser(string);
@@ -25,31 +26,19 @@ class Parser  {
 
 Parser::Parser(string file)  {
 	inputStream.open(file);
+	currentCommand = "";
+	nextCommand = "";
+	advance();
 	advance();
 }
 
 bool Parser::hasMoreCommands()  {
-	streampos curr = inputStream.tellg();
-	string newLine;
-
-	while(inputStream)  {
-		getline(inputStream, newLine);
-        cout << "in: " << newLine << endl;
-		newLine = trim(newLine);
-        cout << "out: " << newLine << endl;
-
-		if(newLine.length() == 0 || (newLine[0] == '/' && newLine[1] == '/'))  {
-			curr = inputStream.tellg();
-		}  else  {
-			inputStream.seekg(curr, ios_base::beg);
-			return true;
-		}
-	}
-
-	return false;
+	return currentCommand.length() != 0;
 }
 
 void Parser::advance()  {
+	currentCommand = nextCommand;
+
 	string newLine;
 
 	while(inputStream)  {
@@ -59,9 +48,13 @@ void Parser::advance()  {
 		if(newLine.length() == 0 || (newLine[0] == '/' && newLine[1] == '/'))  {
 			continue;
 		}  else  {
-			currentCommand = newLine;
+			nextCommand = newLine;
 			return;
 		}
+	}
+
+	if(!inputStream)  {
+		nextCommand = "";
 	}
 }
 
@@ -109,8 +102,6 @@ string Parser::comp()  {
 		}
 	}
 
-	cout << "comp(q): (" << eqIndex << ", " << scIndex << ") " << currentCommand;
-
 	if(eqIndex < 0 && scIndex < 0)  {
 		return currentCommand;
 	}
@@ -118,9 +109,9 @@ string Parser::comp()  {
 		return currentCommand.substr(0, scIndex);
 	}
 	if(scIndex < 0)  {
-		return currentCommand.substr(eqIndex, currentCommand.length() - eqIndex - 1);
+		return currentCommand.substr(eqIndex + 1, currentCommand.length() - eqIndex);
 	}
-	return currentCommand.substr(eqIndex, scIndex - eqIndex - 1);
+	return currentCommand.substr(eqIndex + 1, scIndex - eqIndex);
 }
 
 string Parser::jump()  {
@@ -143,6 +134,9 @@ string Parser::trim(string input)  {
 
 	int i;
 	for(i = 0; i < input.length(); i++)  {
+		if((i < input.length() - 1) && (input[i] == '/') && (input[i + 1] == '/'))  {
+			break;
+		}
 		if(input[i] != ' ' && input[i] != '\r')  {
 			fin += input[i];
 		}
